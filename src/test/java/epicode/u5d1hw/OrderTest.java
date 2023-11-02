@@ -8,6 +8,8 @@ import epicode.u5d1hw.entities.tables.Table;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -37,11 +39,12 @@ public class OrderTest {
     public void addItemTest() {
         ordertest.addItem(foodTest);
     }
-    @Test
-    public void throwExceptionIfTableOccupiedTest() {
-
+    @ParameterizedTest
+    @CsvSource({"Tavolo1, 5"})
+    public void throwExceptionIfTableOccupiedTest(String tavolo, int n) {
+        Table t = context.getBean(tavolo, Table.class);
         assertThrows(RuntimeException.class, () -> {
-            orderOnOccupiedTable = new Order(occupiedTableTest, 5);
+            orderOnOccupiedTable = new Order(t, n);
         });
     }
 
