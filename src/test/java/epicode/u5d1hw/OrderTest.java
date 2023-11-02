@@ -11,10 +11,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 @SpringBootTest
 public class OrderTest {
     static AnnotationConfigApplicationContext context;
     static Order ordertest;
+    static Order orderOnOccupiedTable;
     static Table occupiedTableTest;
     static Pizza foodTest;
     @BeforeAll
@@ -24,13 +27,22 @@ public class OrderTest {
         occupiedTableTest = context.getBean("Tavolo1", Table.class);
         foodTest = context.getBean("margherita_normale",PizzaMargherita.class);
         ordertest = new Order(occupiedTableTest, 5);
+
     }
     @AfterAll
     static void afterAll() {
         context.close();
     }
-@Test
+    @Test
     public void addItemTest() {
-    ordertest.addItem(foodTest);
-}
+        ordertest.addItem(foodTest);
+    }
+    @Test
+    public void throwExceptionIfTableOccupiedTest() {
+
+        assertThrows(RuntimeException.class, () -> {
+            orderOnOccupiedTable = new Order(occupiedTableTest, 5);
+        });
+    }
+
 }
