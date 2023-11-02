@@ -13,6 +13,27 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 @SpringBootTest
 class U5d1hwApplicationTests {
+    private static AnnotationConfigApplicationContext context;
+    static Pizza testMargheritaPizza;
+    static Pizza testMargheritaXlPizza;
 
+    @BeforeAll
+    static void beforeAll(){
+        context = new AnnotationConfigApplicationContext((U5d1hwApplication.class));
+        testMargheritaPizza = context.getBean("margherita_normale",PizzaMargherita.class);
+        testMargheritaXlPizza = context.getBean("margherita_xl", PizzaMargherita.class );
+    }
+    @Test
+    public void testNotNull() {
+        assertNotNull(testMargheritaPizza);
+    }
+    @Test
+    public void testNotSame() {
+        assertNotSame(testMargheritaPizza, testMargheritaXlPizza);
+    }
+    @AfterAll
+    static void afterAll() {
+        context.close();
+    }
 
 }
