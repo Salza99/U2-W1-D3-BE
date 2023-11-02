@@ -14,6 +14,14 @@ public class Table {
     boolean free;
     double seatPrice;
 
+    public Table(int id, int seats, boolean free, double seatPrice) {
+        this.id = id;
+        this.seats = seats;
+        this.free = free;
+        this.seatPrice = seatPrice;
+
+    }
+
     public void setFree(boolean free) {
         this.free = free;
     }
